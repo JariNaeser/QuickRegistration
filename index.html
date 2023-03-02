@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Jari Naeser">
+        <title>QR Client</title>
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <nav style="padding-left: 2em;" class="navbar navbar-dark bg-primary">
+            <a class="navbar-brand" href="#">QuickRegistration</a>
+        </nav>
+        <div class="container col-md-12"> 
+            <br>
+            <h1 class="text-center">M-E5110Z GUA/RIV</h1>
+            <h1 class="text-center" style="font-weight: 250;">Sistemi Embedded</h1>
+            <br>
+            <hr>
+            <br>
+            <h2>Informazioni riguardanti la lezione</h2>
+            <br>
+            <p><b>Data:</b> <span id="currentDate">-</span></p>
+            <p><b>Orario:</b> 08:30 - 11:45</p>
+            <p><b>Utenti presenti:</b> <span id="numeroUtentiRegistrati">-</span> / <span id="numeroUtentiConAccesso">-</span></p>
+            <br>
+            <hr>
+            <br>
+            <h2 style="display: inline-flex;">Utenti registrati</h3>
+            <button id="btnRimuoviUtenti" style="float: right;" type="button" class="btn btn-outline-secondary">Rimuovi utenti registrati</button>
+            <br>
+            <br>
+            <div class="table-responsive-md text-center">
+                <table class="table table-hover" style="table-layout: fixed;">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Tessera</th>
+                            <th scope="col">Nome e Cognome</th>
+                            <th scope="col">Data registrazione</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableURBody">
+                        <!-- Rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <hr>
+            <br>
+            <h2>Utenti con accesso al corso</h2>
+            <br>
+            <div class="table-responsive-md text-center">
+                <table class="table table-hover" style="table-layout: fixed;">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID Tessera</th>
+                            <th scope="col">Nome e Cognome</th>
+                            <th scope="col">Nome Corso</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableUABody">
+                        <!-- Rows will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+
+            var interval = 2000;    // every 2 seconds
+
+            function formatDigits(val){
+                if(val < 10){
+                    return '0' + val;
+                }
+                return val;
+            }
+
+            function getFormattedDate(date){
+                var d = new Date(date);
+                var date = formatDigits(d.getDate()) + "-" + formatDigits(d.getMonth()+1) + "-" + formatDigits(d.getFullYear());
+                var time = formatDigits(d.getHours()) + ":" + formatDigits(d.getMinutes()) + ":" + formatDigits(d.getSeconds());
+                return date + " " + time;
+            }
+
+            function getRegisteredUsers(){
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://raspberrypi.local:4000/getRegisteredUsers',
+                    success: function (data) {
+
+                        $('#tableURBody').text('');
+
+                        data.forEach(element => {
+                            $('#tableURBody').append('<tr><td>' + element.cardId + '</td><td>' + element.userData + '</td><td>' + getFormattedDate(element.registeredAt) + '</td></tr>');
+                        });
+
+                        $('#numeroUtentiRegistrati').text(data.length);     
+                    },
+                    complete: function (data) {
+                        setTimeout(getRegisteredUsers, interval);
+                    }
+                });
+            }
+
+            $(document).ready(function(){
+
+                $('#btnRimuoviUtenti').click(function(){
+                    $.ajax({
+                        url: 'http://raspberrypi.local:4000/deleteRegisteredUsers',
+                        type: 'DELETE'
+                    });  
+                });
+
+                var d = new Date();
+                $('#currentDate').text(formatDigits(d.getDate()) + "-" + formatDigits(d.getMonth()+1) + "-" + formatDigits(d.getFullYear()));
+
+                // Richiesta di tipo GET al server REST
+                $.get("http://raspberrypi.local:4000/getUsersWithAccess", function(data, status){
+
+                    data.forEach(element => {
+                        $('#tableUABody').append('<tr><td>' + element.cardId + '</td><td>' + element.userData + '</td><td>' + element.courseName + '</td></tr>');
+                    });
+
+                    $('#numeroUtentiConAccesso').text(data.length);
+                });
+
+                setTimeout(getRegisteredUsers, interval); 
+
+            });
+        </script>
+    </body>
+</html>

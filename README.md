@@ -8,5 +8,5 @@ In a lot of schools nowadays before the start of every lesson the teacher checks
 This operation is usually done through a sheet of paper and by hand. It is very repetitive and time consuming. <br>
 Therefore I developed this little device that solves this problem through some simple sensors and a RFID card that every student owns.
 
-<img src="./media/DeviceImage.PNG" width="30%">
+<img src="./media/DeviceImage.png" width="30%">
 

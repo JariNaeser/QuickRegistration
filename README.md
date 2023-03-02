@@ -15,7 +15,8 @@ Therefore I developed this little device that solves this problem through some s
 ### Raspberry pin configuration
 In order to have a system that works with the given source file every pin has to strictly match the following table.
 
-![RaspberryPi 3 pinout map](media/Raspberry_pinout.png) <br>
+<img src="media/Raspberry_pinout.png" alt= “RaspberryPi 3 pinout map” width="30%">
+<br>
 <small>**Image source**: [link](https://pi4j.com/1.2/pins/model-b-plus.html)</small>
 
 | Component   | Component Pin | RaspberryPi pin (Board Layout) |

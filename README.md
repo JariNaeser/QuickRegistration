@@ -10,32 +10,32 @@ Therefore I developed this little device that solves this problem through some s
 
 ## Components
 
-#### Raspberry Pi 3 B+
+### Raspberry Pi 3 B+
 The brain of this project is a Raspberry Pi 3 B+, every sensor and device will connect to it.
 
-<img src="media/raspb.png" alt=“RaspberryPi 3 B+” width="30%">
+<img src="./media/raspb.png" width="30%">
 
 <small>**Image source**: [link](https://www.brack.ch/raspberry-pi-entwicklerboard-raspberry-pi-3-model-b-plus-739538)</small>
 
-#### LCD Display
+### LCD Display
 
 <img src="media/lcd.jpeg" alt=“LCD Display” width="30%">
 
 <small>**Image source**: [link](https://www.reichelt.com/de/en/developer-boards-display-20-x-4-characters-blue-debo-lcd-20x4-bl-p192144.html)</small>
 
-#### Buzzer
+### Buzzer
 
 <img src="media/buzzer.jpeg" alt=“Buzzer” width="30%">
 
 <small>**Image source**: [link](https://www.conrad.ch/de/p/tru-components-tc-9202060-piezo-signalgeber-geraeusch-entwicklung-85-db-spannung-5-v-dauerton-1-st-2300515.html)</small>
 
-#### RGB Led
+### RGB Led
 
 <img src="media/rgbLed.jpeg" alt=“RGB led” width="30%">
 
 <small>**Image source**: [link](https://www.reichelt.com/ch/de/rgb-led-5-mm-bedrahtet-4-pin-rt-gn-bl-8000-mcd-25--led-ll-5-8000rgb-p156358.html)</small>
 
-#### RFID Reader
+### RFID Reader
 
 <img src="media/rfidReader.png" alt=“RFID Reader” width="30%">
 
